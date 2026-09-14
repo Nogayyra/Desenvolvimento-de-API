@@ -6,11 +6,7 @@
         "php": ">=8.3"
     },
     "require-dev": {
-        "zircote/swagger-php": "^4.9",
-        "phpunit/phpunit": "^11.0"
-    },
-    "scripts": {
-        "e2e": "php tests/run-e2e.php"
+        "zircote/swagger-php": "^4.9"
     },
     "license": "MIT"
 }

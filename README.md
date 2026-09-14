@@ -91,11 +91,9 @@ O `.env` nunca deve ser versionado (já está no `.gitignore`).
 
 ### Com o servidor embutido do PHP
 ```bash
-php -S localhost:8000 router.php
+php -S localhost:8000 -t public
 ```
 A API ficará disponível em `http://localhost:8000/api/maintenance-orders`.
-
-> O `router.php` redireciona as rotas `/api/...` para o front controller (`public/index.php`) e serve os arquivos estáticos de `public/` (ex.: `docs.html`).
 
 ### Com Laravel Herd
 1. Abra o Herd e aponte um site para a pasta do projeto.
@@ -168,17 +166,6 @@ Campos obrigatórios no `POST`: `cliente_nome`, `cliente_telefone`, `equipamento
   ]
 }
 ```
-
-## Testes E2E (PHPUnit)
-
-Testes de ponta a ponta em `tests/E2E/`: sobem o servidor, usam o banco `fixapi_test` (criado a partir do `schema.sql`) e fazem requisições HTTP reais cobrindo listagem, filtro por status, busca, criação, atualização, exclusão, validações (400/422), 404/405 e um fluxo CRUD completo.
-
-```bash
-composer install
-composer e2e
-```
-
-> O banco de desenvolvimento (`fixapi`) não é tocado pelos testes.
 
 ## Como testar no Insomnia
 
