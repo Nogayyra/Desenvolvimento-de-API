@@ -1,13 +1,13 @@
 <?php
 
 /**
- * MaintenanceOrder
+ * OrdemManutencao
  *
  * Responsabilidade: representar a ordem de manutenção e cuidar de
  * todas as consultas ao banco (listar, buscar, criar, atualizar, excluir).
  * Não conhece HTTP nem JSON.
  */
-class MaintenanceOrder
+class OrdemManutencao
 {
     public const STATUSES = [
         'recebido',
@@ -57,7 +57,7 @@ class MaintenanceOrder
      */
     public static function listarTodas(?string $status = null): array
     {
-        $pdo = Connection::get();
+        $pdo = Conexao::get();
 
         $sql = 'SELECT * FROM maintenance_orders';
         $params = [];
@@ -77,7 +77,7 @@ class MaintenanceOrder
 
     public static function buscarPorId(int $id): ?array
     {
-        $pdo = Connection::get();
+        $pdo = Conexao::get();
         $stmt = $pdo->prepare('SELECT * FROM maintenance_orders WHERE id = :id LIMIT 1');
         $stmt->execute(['id' => $id]);
         $ordem = $stmt->fetch();
@@ -87,7 +87,7 @@ class MaintenanceOrder
 
     public static function criar(array $dados): int
     {
-        $pdo = Connection::get();
+        $pdo = Conexao::get();
 
         $stmt = $pdo->prepare(
             'INSERT INTO maintenance_orders
@@ -135,7 +135,7 @@ class MaintenanceOrder
             return false;
         }
 
-        $pdo = Connection::get();
+        $pdo = Conexao::get();
         $sql = 'UPDATE maintenance_orders SET ' . implode(', ', $campos) . ' WHERE id = :id';
         $stmt = $pdo->prepare($sql);
 
@@ -144,7 +144,7 @@ class MaintenanceOrder
 
     public static function excluir(int $id): bool
     {
-        $pdo = Connection::get();
+        $pdo = Conexao::get();
         $stmt = $pdo->prepare('DELETE FROM maintenance_orders WHERE id = :id');
 
         return $stmt->execute(['id' => $id]);

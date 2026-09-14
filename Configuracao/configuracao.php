@@ -1,13 +1,13 @@
 <?php
 
 /**
- * configuration.php
+ * configuracao.php
  *
  * Responsabilidade única: carregar o arquivo .env e expor as
  * configurações da aplicação como constantes.
  */
 
-function fixapi_load_env(string $path): void
+function fixapi_carregar_env(string $path): void
 {
     if (!file_exists($path)) {
         return;
@@ -36,7 +36,7 @@ function fixapi_load_env(string $path): void
     }
 }
 
-fixapi_load_env(__DIR__ . '/../.env');
+fixapi_carregar_env(__DIR__ . '/../.env');
 
 // ---------- Banco de dados ----------
 define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');

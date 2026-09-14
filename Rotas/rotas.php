@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Routes/api.php
+ * Rotas/rotas.php
  *
  * Responsabilidade única: mapear método HTTP + URI para o método
- * correto do Controller. Não contém regras de negócio.
+ * correto do Controlador. Não contém regras de negócio.
  */
 
 $metodo = $_SERVER['REQUEST_METHOD'];
@@ -40,23 +40,23 @@ if ($id !== null && !ctype_digit($id)) {
 
 switch (true) {
     case $metodo === 'GET' && $id === null:
-        MaintenanceOrderController::index();
+        ControladorOrdemManutencao::index();
         break;
 
     case $metodo === 'GET' && $id !== null:
-        MaintenanceOrderController::show((int) $id);
+        ControladorOrdemManutencao::show((int) $id);
         break;
 
     case $metodo === 'POST' && $id === null:
-        MaintenanceOrderController::store();
+        ControladorOrdemManutencao::store();
         break;
 
     case $metodo === 'PUT' && $id !== null:
-        MaintenanceOrderController::update((int) $id);
+        ControladorOrdemManutencao::update((int) $id);
         break;
 
     case $metodo === 'DELETE' && $id !== null:
-        MaintenanceOrderController::destroy((int) $id);
+        ControladorOrdemManutencao::destroy((int) $id);
         break;
 
     default:

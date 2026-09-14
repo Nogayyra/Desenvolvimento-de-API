@@ -1,30 +1,30 @@
 <?php
 
 /**
- * MaintenanceOrderController
+ * ControladorOrdemManutencao
  *
  * Responsabilidade: receber a requisição HTTP, validar os dados
- * (via MaintenanceOrder::validar), chamar o Model e devolver a
+ * (via OrdemManutencao::validar), chamar o Modelo e devolver a
  * resposta em JSON com o código HTTP adequado. Não contém SQL.
  */
-class MaintenanceOrderController
+class ControladorOrdemManutencao
 {
     public static function index(): void
     {
         $status = $_GET['status'] ?? null;
 
-        if ($status !== null && !in_array($status, MaintenanceOrder::STATUSES, true)) {
-            self::responderErro(422, "Status inválido. Valores permitidos: " . implode(', ', MaintenanceOrder::STATUSES) . '.');
+        if ($status !== null && !in_array($status, OrdemManutencao::STATUSES, true)) {
+            self::responderErro(422, "Status inválido. Valores permitidos: " . implode(', ', OrdemManutencao::STATUSES) . '.');
             return;
         }
 
-        $ordens = MaintenanceOrder::listarTodas($status);
+        $ordens = OrdemManutencao::listarTodas($status);
         self::responderJson(200, $ordens);
     }
 
     public static function show(int $id): void
     {
-        $ordem = MaintenanceOrder::buscarPorId($id);
+        $ordem = OrdemManutencao::buscarPorId($id);
 
         if (!$ordem) {
             self::responderErro(404, 'Ordem de manutenção não encontrada.');
@@ -43,22 +43,22 @@ class MaintenanceOrderController
             return;
         }
 
-        $erros = MaintenanceOrder::validar($dados);
+        $erros = OrdemManutencao::validar($dados);
 
         if (!empty($erros)) {
             self::responderErro(422, 'Dados inválidos.', $erros);
             return;
         }
 
-        $id = MaintenanceOrder::criar($dados);
-        $ordem = MaintenanceOrder::buscarPorId($id);
+        $id = OrdemManutencao::criar($dados);
+        $ordem = OrdemManutencao::buscarPorId($id);
 
         self::responderJson(201, $ordem);
     }
 
     public static function update(int $id): void
     {
-        $ordemExistente = MaintenanceOrder::buscarPorId($id);
+        $ordemExistente = OrdemManutencao::buscarPorId($id);
 
         if (!$ordemExistente) {
             self::responderErro(404, 'Ordem de manutenção não encontrada.');
@@ -72,29 +72,29 @@ class MaintenanceOrderController
             return;
         }
 
-        $erros = MaintenanceOrder::validar($dados, parcial: true);
+        $erros = OrdemManutencao::validar($dados, parcial: true);
 
         if (!empty($erros)) {
             self::responderErro(422, 'Dados inválidos.', $erros);
             return;
         }
 
-        MaintenanceOrder::atualizar($id, $dados);
-        $ordemAtualizada = MaintenanceOrder::buscarPorId($id);
+        OrdemManutencao::atualizar($id, $dados);
+        $ordemAtualizada = OrdemManutencao::buscarPorId($id);
 
         self::responderJson(200, $ordemAtualizada);
     }
 
     public static function destroy(int $id): void
     {
-        $ordem = MaintenanceOrder::buscarPorId($id);
+        $ordem = OrdemManutencao::buscarPorId($id);
 
         if (!$ordem) {
             self::responderErro(404, 'Ordem de manutenção não encontrada.');
             return;
         }
 
-        MaintenanceOrder::excluir($id);
+        OrdemManutencao::excluir($id);
         self::responderJson(204, null);
     }
 

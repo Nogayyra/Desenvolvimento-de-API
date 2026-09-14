@@ -21,19 +21,19 @@ Sem Laravel Framework, sem sessão, sem login/JWT — apenas PHP puro organizado
 
 ```
 FixAPI/
-├── Config/
-│   └── configuration.php        # Carrega o .env e define constantes de config
-├── Controller/
-│   └── MaintenanceOrderController.php
-├── Model/
-│   ├── Connection.php           # Conexão PDO (única responsabilidade)
-│   └── MaintenanceOrder.php     # Todo o SQL da entidade + validação
-├── Routes/
-│   └── api.php                  # Roteamento: método HTTP + URI -> Controller
+├── Configuracao/
+│   └── configuracao.php         # Carrega o .env e define constantes de config
+├── Controlador/
+│   └── ControladorOrdemManutencao.php
+├── Modelo/
+│   ├── Conexao.php              # Conexão PDO (única responsabilidade)
+│   └── OrdemManutencao.php      # Todo o SQL da entidade + validação
+├── Rotas/
+│   └── rotas.php                # Roteamento: método HTTP + URI -> Controlador
 ├── Swagger/
 │   └── openapi.php              # Anotações OpenAPI (PHP Attributes)
-├── database/
-│   └── schema.sql               # Criação do banco + dados de exemplo
+├── banco_de_dados/
+│   └── esquema.sql              # Criação do banco + dados de exemplo
 ├── public/
 │   ├── index.php                # Front controller (único ponto de entrada)
 │   ├── openapi.json             # Documentação OpenAPI já gerada
@@ -46,9 +46,9 @@ FixAPI/
 
 ## Arquitetura
 
-- **Model** (`Connection`, `MaintenanceOrder`): conexão PDO e todo o SQL com *prepared statements*. Também concentra a validação dos dados da entidade.
-- **Controller** (`MaintenanceOrderController`): lê a requisição (JSON do corpo, query string), chama o Model, monta a resposta em JSON com o código HTTP correto. Não tem SQL.
-- **Routes/api.php**: interpreta a URI e o método HTTP e despacha para o método certo do Controller.
+- **Modelo** (`Conexao`, `OrdemManutencao`): conexão PDO e todo o SQL com *prepared statements*. Também concentra a validação dos dados da entidade.
+- **Controlador** (`ControladorOrdemManutencao`): lê a requisição (JSON do corpo, query string), chama o Modelo, monta a resposta em JSON com o código HTTP correto. Não tem SQL.
+- **Rotas/rotas.php**: interpreta a URI e o método HTTP e despacha para o método certo do Controlador.
 - **public/index.php**: front controller único — carrega as classes e delega para as rotas.
 
 ## Instalação
@@ -65,7 +65,7 @@ composer install
 
 1. Crie o banco e a tabela executando o script:
    ```bash
-   mysql -u root -p < database/schema.sql
+   mysql -u root -p < banco_de_dados/esquema.sql
    ```
    Isso cria o banco `fixapi`, a tabela `maintenance_orders` e 5 registros de exemplo.
 
@@ -190,11 +190,11 @@ O projeto já está preparado com `.gitignore` (ignorando `.env`, `vendor/` e ar
 Sugestão de tarefas para organizar no Jira:
 
 1. Configuração do projeto
-2. Banco de dados (schema.sql)
-3. Conexão PDO (Connection.php)
-4. Model (MaintenanceOrder.php)
-5. Controller (MaintenanceOrderController.php)
-6. Rotas (Routes/api.php)
+2. Banco de dados (esquema.sql)
+3. Conexão PDO (Conexao.php)
+4. Modelo (OrdemManutencao.php)
+5. Controlador (ControladorOrdemManutencao.php)
+6. Rotas (Rotas/rotas.php)
 7. CRUD completo
 8. Validações
 9. Documentação Swagger

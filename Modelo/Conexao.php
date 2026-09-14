@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Connection
+ * Conexao
  *
  * Responsabilidade única: estabelecer e fornecer a conexão PDO com o banco.
  * Não contém SQL nem regras de negócio.
  */
-class Connection
+class Conexao
 {
     private static ?PDO $instance = null;
 

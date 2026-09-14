@@ -28,7 +28,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/MaintenanceOrder" }
+                  "items": { "$ref": "#/components/schemas/OrdemManutencao" }
                 }
               }
             }
@@ -41,7 +41,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/MaintenanceOrderInput" }
+              "schema": { "$ref": "#/components/schemas/OrdemManutencaoEntrada" }
             }
           }
         },
@@ -49,7 +49,7 @@
           "201": {
             "description": "Ordem criada",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/MaintenanceOrder" } }
+              "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } }
             }
           },
           "422": { "description": "Dados inválidos" }
@@ -65,7 +65,7 @@
         "responses": {
           "200": {
             "description": "Ordem encontrada",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MaintenanceOrder" } } }
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } } }
           },
           "404": { "description": "Ordem não encontrada" }
         }
@@ -79,14 +79,14 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/MaintenanceOrderInput" }
+              "schema": { "$ref": "#/components/schemas/OrdemManutencaoEntrada" }
             }
           }
         },
         "responses": {
           "200": {
             "description": "Ordem atualizada",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MaintenanceOrder" } } }
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } } }
           },
           "404": { "description": "Ordem não encontrada" },
           "422": { "description": "Dados inválidos" }
@@ -106,7 +106,7 @@
   },
   "components": {
     "schemas": {
-      "MaintenanceOrder": {
+      "OrdemManutencao": {
         "type": "object",
         "properties": {
           "id": { "type": "integer", "example": 1 },
@@ -127,7 +127,7 @@
           "updated_at": { "type": "string", "format": "date-time" }
         }
       },
-      "MaintenanceOrderInput": {
+      "OrdemManutencaoEntrada": {
         "type": "object",
         "required": ["cliente_nome", "cliente_telefone", "equipamento", "marca", "problema_relatado"],
         "properties": {

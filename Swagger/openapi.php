@@ -23,7 +23,7 @@ use OpenApi\Attributes as OA;
     description: 'API REST para gerenciamento de ordens de manutenção de computadores em uma assistência técnica.'
 )]
 #[OA\Schema(
-    schema: 'MaintenanceOrder',
+    schema: 'OrdemManutencao',
     type: 'object',
     properties: [
         new OA\Property(property: 'id', type: 'integer', example: 1),
@@ -45,7 +45,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]
 )]
-class OpenApiDocs
+class DocumentacaoApi
 {
     #[OA\Get(
         path: '/api/maintenance-orders',
@@ -63,7 +63,7 @@ class OpenApiDocs
             new OA\Response(
                 response: 200,
                 description: 'Lista de ordens de manutenção',
-                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/MaintenanceOrder'))
+                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/OrdemManutencao'))
             ),
         ]
     )]
@@ -78,7 +78,7 @@ class OpenApiDocs
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
-            new OA\Response(response: 200, description: 'Ordem encontrada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 200, description: 'Ordem encontrada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
         ]
     )]
@@ -91,10 +91,10 @@ class OpenApiDocs
         summary: 'Cadastra uma nova ordem de manutenção',
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')
         ),
         responses: [
-            new OA\Response(response: 201, description: 'Ordem criada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 201, description: 'Ordem criada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
     )]
@@ -110,10 +110,10 @@ class OpenApiDocs
         ],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')
         ),
         responses: [
-            new OA\Response(response: 200, description: 'Ordem atualizada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 200, description: 'Ordem atualizada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
