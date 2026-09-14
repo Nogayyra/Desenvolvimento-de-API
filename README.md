@@ -200,3 +200,16 @@ Sugestão de tarefas para organizar no Jira:
 9. Documentação Swagger
 10. Testes no Insomnia
 11. README
+
+## Divisão de tarefas (Felipe e Arthur)
+
+Relatório de participação da dupla — divisão igualitária do trabalho (6 entregas para cada um):
+
+| Felipe | Arthur |
+|---|---|
+| Configuração do projeto (`.env`, `Configuracao/configuracao.php`, `composer.json`) | Banco de dados (`banco_de_dados/esquema.sql`, tabela + registros de exemplo) |
+| Conexão PDO (`Modelo/Conexao.php`) | Controlador (`Controlador/ControladorOrdemManutencao.php`, CRUD completo) |
+| Modelo (`Modelo/OrdemManutencao.php`, SQL + validação) | Rotas (`Rotas/rotas.php`, método HTTP + URI) |
+| Validações e códigos HTTP de erro (400, 404, 422, 405) | Documentação Swagger (`Swagger/openapi.php`, `openapi.json`, `docs.html`) |
+| Testes E2E locais (PHPUnit, 24 testes) + banco `fixapi_test` | Coleção do Insomnia + testes manuais dos endpoints |
+| Versionamento e hospedagem (Git, GitHub) | README + padronização do código em português |
