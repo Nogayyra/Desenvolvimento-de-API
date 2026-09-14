@@ -74,7 +74,12 @@ class ControladorOrdemManutencao
             return;
         }
 
-        OrdemManutencao::atualizar($id, $dados);
+        // Se não veio nenhum campo válido, não há o que atualizar.
+        if (!OrdemManutencao::atualizar($id, $dados)) {
+            self::responderErro(422, 'Nenhum campo para atualizar. Envie ao menos um campo válido.');
+            return;
+        }
+
         $ordemAtualizada = OrdemManutencao::buscarPorId($id);
 
         self::responderJson(200, $ordemAtualizada);

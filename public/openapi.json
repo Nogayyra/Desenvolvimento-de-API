@@ -1,150 +1,302 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "FixAPI",
-    "description": "API REST para gerenciamento de ordens de manutenção de computadores em uma assistência técnica.",
-    "version": "1.0.0"
-  },
-  "paths": {
-    "/api/maintenance-orders": {
-      "get": {
-        "summary": "Lista todas as ordens de manutenção",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "description": "Filtra as ordens por status",
-            "schema": {
-              "type": "string",
-              "enum": ["recebido", "em_analise", "em_manutencao", "aguardando_peca", "concluido", "entregue", "cancelado"]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lista de ordens de manutenção",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/OrdemManutencao" }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Cadastra uma nova ordem de manutenção",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/OrdemManutencaoEntrada" }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Ordem criada",
-            "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } }
-            }
-          },
-          "422": { "description": "Dados inválidos" }
-        }
-      }
+    "openapi": "3.0.0",
+    "info": {
+        "title": "FixAPI",
+        "description": "API REST para gerenciamento de ordens de manutenção de computadores em uma assistência técnica.",
+        "version": "1.0.0"
     },
-    "/api/maintenance-orders/{id}": {
-      "get": {
-        "summary": "Busca uma ordem de manutenção pelo ID",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ordem encontrada",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } } }
-          },
-          "404": { "description": "Ordem não encontrada" }
-        }
-      },
-      "put": {
-        "summary": "Atualiza uma ordem de manutenção existente (atualização parcial)",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/OrdemManutencaoEntrada" }
+    "paths": {
+        "/api/maintenance-orders": {
+            "get": {
+                "summary": "Lista todas as ordens de manutenção",
+                "operationId": "6c1f11e92f3afc5afb0dcb320096fb17",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filtra as ordens por status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "recebido",
+                                "em_analise",
+                                "em_manutencao",
+                                "aguardando_peca",
+                                "concluido",
+                                "entregue",
+                                "cancelado"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de ordens de manutenção",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrdemManutencao"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastra uma nova ordem de manutenção",
+                "operationId": "398ed90b36cfc8f853083b6aa572e7ea",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrdemManutencaoEntrada"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ordem criada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrdemManutencao"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                }
             }
-          }
         },
-        "responses": {
-          "200": {
-            "description": "Ordem atualizada",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrdemManutencao" } } }
-          },
-          "404": { "description": "Ordem não encontrada" },
-          "422": { "description": "Dados inválidos" }
+        "/api/maintenance-orders/{id}": {
+            "get": {
+                "summary": "Busca uma ordem de manutenção pelo ID",
+                "operationId": "8d80628f06bd8dc1c1b5781301983c28",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ordem encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrdemManutencao"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ordem não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualiza uma ordem de manutenção existente",
+                "operationId": "640fa8947b7c7b84e33d12787da71843",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrdemManutencaoEntrada"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ordem atualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrdemManutencao"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ordem não encontrada"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui uma ordem de manutenção",
+                "operationId": "23bdf1940a9a2a923c2da5a499c0e2ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Ordem excluída"
+                    },
+                    "404": {
+                        "description": "Ordem não encontrada"
+                    }
+                }
+            }
         }
-      },
-      "delete": {
-        "summary": "Exclui uma ordem de manutenção",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
-        ],
-        "responses": {
-          "204": { "description": "Ordem excluída" },
-          "404": { "description": "Ordem não encontrada" }
+    },
+    "components": {
+        "schemas": {
+            "OrdemManutencao": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "cliente_nome": {
+                        "type": "string",
+                        "example": "João Silva"
+                    },
+                    "cliente_telefone": {
+                        "type": "string",
+                        "example": "(71) 99999-0000"
+                    },
+                    "equipamento": {
+                        "type": "string",
+                        "example": "Notebook"
+                    },
+                    "marca": {
+                        "type": "string",
+                        "example": "Dell"
+                    },
+                    "modelo": {
+                        "type": "string",
+                        "example": "Inspiron 15",
+                        "nullable": true
+                    },
+                    "problema_relatado": {
+                        "type": "string",
+                        "example": "Não liga"
+                    },
+                    "diagnostico": {
+                        "type": "string",
+                        "example": "Fonte queimada",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "recebido",
+                            "em_analise",
+                            "em_manutencao",
+                            "aguardando_peca",
+                            "concluido",
+                            "entregue",
+                            "cancelado"
+                        ],
+                        "example": "recebido"
+                    },
+                    "valor": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 250,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "OrdemManutencaoEntrada": {
+                "required": [
+                    "cliente_nome",
+                    "cliente_telefone",
+                    "equipamento",
+                    "marca",
+                    "problema_relatado"
+                ],
+                "properties": {
+                    "cliente_nome": {
+                        "type": "string",
+                        "example": "João Silva"
+                    },
+                    "cliente_telefone": {
+                        "type": "string",
+                        "example": "(71) 99999-0000"
+                    },
+                    "equipamento": {
+                        "type": "string",
+                        "example": "Notebook"
+                    },
+                    "marca": {
+                        "type": "string",
+                        "example": "Dell"
+                    },
+                    "modelo": {
+                        "type": "string",
+                        "example": "Inspiron 15"
+                    },
+                    "problema_relatado": {
+                        "type": "string",
+                        "example": "Não liga"
+                    },
+                    "diagnostico": {
+                        "type": "string",
+                        "example": "Fonte queimada"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "recebido",
+                            "em_analise",
+                            "em_manutencao",
+                            "aguardando_peca",
+                            "concluido",
+                            "entregue",
+                            "cancelado"
+                        ]
+                    },
+                    "valor": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 250
+                    }
+                },
+                "type": "object"
+            }
         }
-      }
     }
-  },
-  "components": {
-    "schemas": {
-      "OrdemManutencao": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "integer", "example": 1 },
-          "cliente_nome": { "type": "string", "example": "João Silva" },
-          "cliente_telefone": { "type": "string", "example": "(71) 99999-0000" },
-          "equipamento": { "type": "string", "example": "Notebook" },
-          "marca": { "type": "string", "example": "Dell" },
-          "modelo": { "type": "string", "nullable": true, "example": "Inspiron 15" },
-          "problema_relatado": { "type": "string", "example": "Não liga" },
-          "diagnostico": { "type": "string", "nullable": true, "example": "Fonte queimada" },
-          "status": {
-            "type": "string",
-            "enum": ["recebido", "em_analise", "em_manutencao", "aguardando_peca", "concluido", "entregue", "cancelado"],
-            "example": "recebido"
-          },
-          "valor": { "type": "number", "format": "float", "nullable": true, "example": 250.00 },
-          "created_at": { "type": "string", "format": "date-time" },
-          "updated_at": { "type": "string", "format": "date-time" }
-        }
-      },
-      "OrdemManutencaoEntrada": {
-        "type": "object",
-        "required": ["cliente_nome", "cliente_telefone", "equipamento", "marca", "problema_relatado"],
-        "properties": {
-          "cliente_nome": { "type": "string", "example": "João Silva" },
-          "cliente_telefone": { "type": "string", "example": "(71) 99999-0000" },
-          "equipamento": { "type": "string", "example": "Notebook" },
-          "marca": { "type": "string", "example": "Dell" },
-          "modelo": { "type": "string", "example": "Inspiron 15" },
-          "problema_relatado": { "type": "string", "example": "Não liga" },
-          "diagnostico": { "type": "string", "example": "Fonte queimada" },
-          "status": {
-            "type": "string",
-            "enum": ["recebido", "em_analise", "em_manutencao", "aguardando_peca", "concluido", "entregue", "cancelado"]
-          },
-          "valor": { "type": "number", "format": "float", "example": 250.00 }
-        }
-      }
-    }
-  }
 }

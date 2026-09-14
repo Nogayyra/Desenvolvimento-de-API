@@ -1,7 +1,7 @@
 <?php
 
 // Descreve a API para a documentação Swagger.
-// Para regenerar o openapi.json: vendor/bin/openapi . -o public/openapi.json
+// Para regenerar o openapi.json: vendor/bin/openapi Swagger -o public/openapi.json
 
 use OpenApi\Attributes as OA;
 
@@ -31,6 +31,26 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'valor', type: 'number', format: 'float', nullable: true, example: 250.00),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
+    ]
+)]
+#[OA\Schema(
+    schema: 'OrdemManutencaoEntrada',
+    type: 'object',
+    required: ['cliente_nome', 'cliente_telefone', 'equipamento', 'marca', 'problema_relatado'],
+    properties: [
+        new OA\Property(property: 'cliente_nome', type: 'string', example: 'João Silva'),
+        new OA\Property(property: 'cliente_telefone', type: 'string', example: '(71) 99999-0000'),
+        new OA\Property(property: 'equipamento', type: 'string', example: 'Notebook'),
+        new OA\Property(property: 'marca', type: 'string', example: 'Dell'),
+        new OA\Property(property: 'modelo', type: 'string', example: 'Inspiron 15'),
+        new OA\Property(property: 'problema_relatado', type: 'string', example: 'Não liga'),
+        new OA\Property(property: 'diagnostico', type: 'string', example: 'Fonte queimada'),
+        new OA\Property(
+            property: 'status',
+            type: 'string',
+            enum: ['recebido', 'em_analise', 'em_manutencao', 'aguardando_peca', 'concluido', 'entregue', 'cancelado']
+        ),
+        new OA\Property(property: 'valor', type: 'number', format: 'float', example: 250.00),
     ]
 )]
 class DocumentacaoApi
@@ -79,7 +99,7 @@ class DocumentacaoApi
         summary: 'Cadastra uma nova ordem de manutenção',
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencaoEntrada')
         ),
         responses: [
             new OA\Response(response: 201, description: 'Ordem criada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
@@ -98,7 +118,7 @@ class DocumentacaoApi
         ],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencaoEntrada')
         ),
         responses: [
             new OA\Response(response: 200, description: 'Ordem atualizada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),

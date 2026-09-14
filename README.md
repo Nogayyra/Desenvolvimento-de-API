@@ -180,7 +180,7 @@ Campos obrigatórios no `POST`: `cliente_nome`, `cliente_telefone`, `equipamento
 - **Para regenerar a partir das anotações** em `Swagger/openapi.php`:
   ```bash
   composer require zircote/swagger-php
-  vendor/bin/openapi . -o public/openapi.json
+   vendor/bin/openapi Swagger -o public/openapi.json
   ```
 
 ## Git, GitHub e Jira

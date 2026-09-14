@@ -39,5 +39,4 @@ define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
-define('APP_NAME', 'FixAPI');
 define('APP_ENV', getenv('APP_ENV') ?: 'local');
