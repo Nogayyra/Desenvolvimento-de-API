@@ -1,19 +1,7 @@
 <?php
 
-/**
- * Swagger/openapi.php
- *
- * Anotações em PHP Attributes (padrão do pacote zircote/swagger-php)
- * que documentam os endpoints reais da API.
- *
- * Para gerar o arquivo openapi.json a partir destas anotações:
- *   1) composer require zircote/swagger-php
- *   2) vendor/bin/openapi . -o public/openapi.json
- *
- * Um openapi.json já gerado manualmente está disponível em
- * public/openapi.json para uso imediato no Swagger UI, sem
- * precisar instalar o pacote.
- */
+// Descreve a API para a documentação Swagger.
+// Para regenerar o openapi.json: vendor/bin/openapi Swagger -o public/openapi.json
 
 use OpenApi\Attributes as OA;
 
@@ -23,7 +11,7 @@ use OpenApi\Attributes as OA;
     description: 'API REST para gerenciamento de ordens de manutenção de computadores em uma assistência técnica.'
 )]
 #[OA\Schema(
-    schema: 'MaintenanceOrder',
+    schema: 'OrdemManutencao',
     type: 'object',
     properties: [
         new OA\Property(property: 'id', type: 'integer', example: 1),
@@ -45,7 +33,27 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]
 )]
-class OpenApiDocs
+#[OA\Schema(
+    schema: 'OrdemManutencaoEntrada',
+    type: 'object',
+    required: ['cliente_nome', 'cliente_telefone', 'equipamento', 'marca', 'problema_relatado'],
+    properties: [
+        new OA\Property(property: 'cliente_nome', type: 'string', example: 'João Silva'),
+        new OA\Property(property: 'cliente_telefone', type: 'string', example: '(71) 99999-0000'),
+        new OA\Property(property: 'equipamento', type: 'string', example: 'Notebook'),
+        new OA\Property(property: 'marca', type: 'string', example: 'Dell'),
+        new OA\Property(property: 'modelo', type: 'string', example: 'Inspiron 15'),
+        new OA\Property(property: 'problema_relatado', type: 'string', example: 'Não liga'),
+        new OA\Property(property: 'diagnostico', type: 'string', example: 'Fonte queimada'),
+        new OA\Property(
+            property: 'status',
+            type: 'string',
+            enum: ['recebido', 'em_analise', 'em_manutencao', 'aguardando_peca', 'concluido', 'entregue', 'cancelado']
+        ),
+        new OA\Property(property: 'valor', type: 'number', format: 'float', example: 250.00),
+    ]
+)]
+class DocumentacaoApi
 {
     #[OA\Get(
         path: '/api/maintenance-orders',
@@ -63,11 +71,11 @@ class OpenApiDocs
             new OA\Response(
                 response: 200,
                 description: 'Lista de ordens de manutenção',
-                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/MaintenanceOrder'))
+                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/OrdemManutencao'))
             ),
         ]
     )]
-    public function index(): void
+    public function listar(): void
     {
     }
 
@@ -78,11 +86,11 @@ class OpenApiDocs
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
-            new OA\Response(response: 200, description: 'Ordem encontrada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 200, description: 'Ordem encontrada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
         ]
     )]
-    public function show(): void
+    public function buscar(): void
     {
     }
 
@@ -91,14 +99,14 @@ class OpenApiDocs
         summary: 'Cadastra uma nova ordem de manutenção',
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencaoEntrada')
         ),
         responses: [
-            new OA\Response(response: 201, description: 'Ordem criada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 201, description: 'Ordem criada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
     )]
-    public function store(): void
+    public function criar(): void
     {
     }
 
@@ -110,15 +118,15 @@ class OpenApiDocs
         ],
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')
+            content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencaoEntrada')
         ),
         responses: [
-            new OA\Response(response: 200, description: 'Ordem atualizada', content: new OA\JsonContent(ref: '#/components/schemas/MaintenanceOrder')),
+            new OA\Response(response: 200, description: 'Ordem atualizada', content: new OA\JsonContent(ref: '#/components/schemas/OrdemManutencao')),
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
     )]
-    public function update(): void
+    public function atualizar(): void
     {
     }
 
@@ -133,7 +141,7 @@ class OpenApiDocs
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
         ]
     )]
-    public function destroy(): void
+    public function excluir(): void
     {
     }
 }

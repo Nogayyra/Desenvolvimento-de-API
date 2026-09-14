@@ -8,5 +8,8 @@
     "require-dev": {
         "zircote/swagger-php": "^4.9"
     },
+    "autoload": {
+        "classmap": ["Swagger/"]
+    },
     "license": "MIT"
 }
