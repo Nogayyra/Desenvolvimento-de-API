@@ -35,7 +35,7 @@ FixAPI/
 ├── banco_de_dados/
 │   └── esquema.sql              # Criação do banco + dados de exemplo
 ├── public/
-│   ├── index.php                # Front controller (único ponto de entrada)
+│   ├── index.php                # Ponto de entrada (carrega tudo e chama as rotas)
 │   ├── openapi.json             # Documentação OpenAPI já gerada
 │   └── docs.html                # Swagger UI (lê o openapi.json)
 ├── .env.example
@@ -49,7 +49,7 @@ FixAPI/
 - **Modelo** (`Conexao`, `OrdemManutencao`): conexão PDO e todo o SQL com *prepared statements*. Também concentra a validação dos dados da entidade.
 - **Controlador** (`ControladorOrdemManutencao`): lê a requisição (JSON do corpo, query string), chama o Modelo, monta a resposta em JSON com o código HTTP correto. Não tem SQL.
 - **Rotas/rotas.php**: interpreta a URI e o método HTTP e despacha para o método certo do Controlador.
-- **public/index.php**: front controller único — carrega as classes e delega para as rotas.
+- **public/index.php**: ponto de entrada único — carrega as classes e delega para as rotas.
 
 ## Instalação
 
@@ -201,15 +201,15 @@ Sugestão de tarefas para organizar no Jira:
 10. Testes no Insomnia
 11. README
 
-## Divisão de tarefas (Felipe e Arthur)
+## Quem fez o quê (Felipe e Arthur)
 
-Relatório de participação da dupla — divisão igualitária do trabalho (6 entregas para cada um):
+Os commits no GitHub saíram todos pela conta do Felipe, mas o código foi dividido entre a dupla como combinado e registrado no relatório do projeto:
 
 | Felipe | Arthur |
 |---|---|
-| Configuração do projeto (`.env`, `Configuracao/configuracao.php`, `composer.json`) | Banco de dados (`banco_de_dados/esquema.sql`, tabela + registros de exemplo) |
-| Conexão PDO (`Modelo/Conexao.php`) | Controlador (`Controlador/ControladorOrdemManutencao.php`, CRUD completo) |
-| Modelo (`Modelo/OrdemManutencao.php`, SQL + validação) | Rotas (`Rotas/rotas.php`, método HTTP + URI) |
-| Validações e códigos HTTP de erro (400, 404, 422, 405) | Documentação Swagger (`Swagger/openapi.php`, `openapi.json`, `docs.html`) |
-| Testes E2E locais (PHPUnit, 24 testes) + banco `fixapi_test` | Coleção do Insomnia + testes manuais dos endpoints |
-| Versionamento e hospedagem (Git, GitHub) | README + padronização do código em português |
+| Configuração (`.env`, `Configuracao/`, `composer.json`) | Banco de dados (`banco_de_dados/esquema.sql`) |
+| Conexão com o banco (`Modelo/Conexao.php`) | Controlador com o CRUD (`Controlador/`) |
+| Modelo com SQL e validação (`Modelo/OrdemManutencao.php`) | Rotas (`Rotas/rotas.php`) |
+| Validações e códigos de erro (400, 404, 422, 405) | Documentação Swagger (`Swagger/`, `openapi.json`, `docs.html`) |
+| Testes E2E locais + banco `fixapi_test` | Coleção do Insomnia + testes manuais |
+| Versionamento e envio ao GitHub | README e padronização em português |

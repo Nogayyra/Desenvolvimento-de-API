@@ -1,20 +1,15 @@
 <?php
 
-/**
- * ControladorOrdemManutencao
- *
- * Responsabilidade: receber a requisição HTTP, validar os dados
- * (via OrdemManutencao::validar), chamar o Modelo e devolver a
- * resposta em JSON com o código HTTP adequado. Não contém SQL.
- */
+// Recebe o HTTP, valida, chama o modelo e responde em JSON.
+
 class ControladorOrdemManutencao
 {
-    public static function index(): void
+    public static function listar(): void
     {
         $status = $_GET['status'] ?? null;
 
-        if ($status !== null && !in_array($status, OrdemManutencao::STATUSES, true)) {
-            self::responderErro(422, "Status inválido. Valores permitidos: " . implode(', ', OrdemManutencao::STATUSES) . '.');
+        if ($status !== null && !in_array($status, OrdemManutencao::STATUS_VALIDOS, true)) {
+            self::responderErro(422, "Status inválido. Valores permitidos: " . implode(', ', OrdemManutencao::STATUS_VALIDOS) . '.');
             return;
         }
 
@@ -22,7 +17,7 @@ class ControladorOrdemManutencao
         self::responderJson(200, $ordens);
     }
 
-    public static function show(int $id): void
+    public static function buscar(int $id): void
     {
         $ordem = OrdemManutencao::buscarPorId($id);
 
@@ -34,7 +29,7 @@ class ControladorOrdemManutencao
         self::responderJson(200, $ordem);
     }
 
-    public static function store(): void
+    public static function criar(): void
     {
         $dados = self::lerCorpoJson();
 
@@ -56,7 +51,7 @@ class ControladorOrdemManutencao
         self::responderJson(201, $ordem);
     }
 
-    public static function update(int $id): void
+    public static function atualizar(int $id): void
     {
         $ordemExistente = OrdemManutencao::buscarPorId($id);
 
@@ -85,7 +80,7 @@ class ControladorOrdemManutencao
         self::responderJson(200, $ordemAtualizada);
     }
 
-    public static function destroy(int $id): void
+    public static function excluir(int $id): void
     {
         $ordem = OrdemManutencao::buscarPorId($id);
 
@@ -98,17 +93,15 @@ class ControladorOrdemManutencao
         self::responderJson(204, null);
     }
 
-    // ---------- Helpers privados ----------
-
     private static function lerCorpoJson(): ?array
     {
-        $raw = file_get_contents('php://input');
+        $texto = file_get_contents('php://input');
 
-        if (trim($raw) === '') {
+        if (trim($texto) === '') {
             return [];
         }
 
-        $dados = json_decode($raw, true);
+        $dados = json_decode($texto, true);
 
         return is_array($dados) ? $dados : null;
     }

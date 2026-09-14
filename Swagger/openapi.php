@@ -1,19 +1,7 @@
 <?php
 
-/**
- * Swagger/openapi.php
- *
- * Anotações em PHP Attributes (padrão do pacote zircote/swagger-php)
- * que documentam os endpoints reais da API.
- *
- * Para gerar o arquivo openapi.json a partir destas anotações:
- *   1) composer require zircote/swagger-php
- *   2) vendor/bin/openapi . -o public/openapi.json
- *
- * Um openapi.json já gerado manualmente está disponível em
- * public/openapi.json para uso imediato no Swagger UI, sem
- * precisar instalar o pacote.
- */
+// Descreve a API para a documentação Swagger.
+// Para regenerar o openapi.json: vendor/bin/openapi . -o public/openapi.json
 
 use OpenApi\Attributes as OA;
 
@@ -67,7 +55,7 @@ class DocumentacaoApi
             ),
         ]
     )]
-    public function index(): void
+    public function listar(): void
     {
     }
 
@@ -82,7 +70,7 @@ class DocumentacaoApi
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
         ]
     )]
-    public function show(): void
+    public function buscar(): void
     {
     }
 
@@ -98,7 +86,7 @@ class DocumentacaoApi
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
     )]
-    public function store(): void
+    public function criar(): void
     {
     }
 
@@ -118,7 +106,7 @@ class DocumentacaoApi
             new OA\Response(response: 422, description: 'Dados inválidos'),
         ]
     )]
-    public function update(): void
+    public function atualizar(): void
     {
     }
 
@@ -133,7 +121,7 @@ class DocumentacaoApi
             new OA\Response(response: 404, description: 'Ordem não encontrada'),
         ]
     )]
-    public function destroy(): void
+    public function excluir(): void
     {
     }
 }

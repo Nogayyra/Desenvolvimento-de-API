@@ -1,34 +1,28 @@
 <?php
 
-/**
- * configuracao.php
- *
- * Responsabilidade única: carregar o arquivo .env e expor as
- * configurações da aplicação como constantes.
- */
+// Lê o .env e guarda cada configuração numa constante.
 
-function fixapi_carregar_env(string $path): void
+function carregar_env(string $caminho): void
 {
-    if (!file_exists($path)) {
+    if (!file_exists($caminho)) {
         return;
     }
 
-    $linhas = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-    foreach ($linhas as $linha) {
+    foreach (file($caminho, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $linha) {
         $linha = trim($linha);
 
-        if ($linha === '' || str_starts_with($linha, '#')) {
+        if ($linha === '' || $linha[0] === '#') {
             continue;
         }
 
-        if (!str_contains($linha, '=')) {
+        $pos = strpos($linha, '=');
+
+        if ($pos === false) {
             continue;
         }
 
-        [$chave, $valor] = explode('=', $linha, 2);
-        $chave = trim($chave);
-        $valor = trim($valor);
+        $chave = trim(substr($linha, 0, $pos));
+        $valor = trim(substr($linha, $pos + 1));
 
         if (getenv($chave) === false) {
             putenv("{$chave}={$valor}");
@@ -36,9 +30,8 @@ function fixapi_carregar_env(string $path): void
     }
 }
 
-fixapi_carregar_env(__DIR__ . '/../.env');
+carregar_env(__DIR__ . '/../.env');
 
-// ---------- Banco de dados ----------
 define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'fixapi');
@@ -46,6 +39,5 @@ define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
-// ---------- Aplicação ----------
 define('APP_NAME', 'FixAPI');
 define('APP_ENV', getenv('APP_ENV') ?: 'local');
