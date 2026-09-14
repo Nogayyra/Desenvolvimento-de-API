@@ -1,0 +1,128 @@
+{
+	"_type": "export",
+	"__export_format": 5,
+	"__export_date": "2026-09-14T00:00:00.000Z",
+	"__export_source": "insomnia.desktop.app",
+	"resources": [
+		{
+			"_id": "wrk_fixapi",
+			"_type": "workspace",
+			"name": "FixAPI",
+			"description": "API REST de ordens de manutencao de computadores (PHP puro + MySQL)."
+		},
+		{
+			"_id": "env_fixapi_base",
+			"_type": "environment",
+			"parentId": "wrk_fixapi",
+			"name": "Base Environment",
+			"data": {
+				"base_url": "http://localhost:8000"
+			}
+		},
+		{
+			"_id": "fld_fixapi_orders",
+			"_type": "request_group",
+			"parentId": "wrk_fixapi",
+			"name": "Maintenance Orders",
+			"description": "CRUD de ordens de manutencao."
+		},
+		{
+			"_id": "req_fixapi_list",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Listar ordens",
+			"description": "Lista todas as ordens. Adicione ?status=<status> para filtrar.",
+			"method": "GET",
+			"url": "{{ _.base_url }}/api/maintenance-orders",
+			"headers": [
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {}
+		},
+		{
+			"_id": "req_fixapi_filter",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Listar ordens por status",
+			"description": "Filtra ordens por status.",
+			"method": "GET",
+			"url": "{{ _.base_url }}/api/maintenance-orders?status=em_manutencao",
+			"headers": [
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {}
+		},
+		{
+			"_id": "req_fixapi_show",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Buscar ordem por ID",
+			"description": "Busca uma ordem pelo ID.",
+			"method": "GET",
+			"url": "{{ _.base_url }}/api/maintenance-orders/1",
+			"headers": [
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {}
+		},
+		{
+			"_id": "req_fixapi_create",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Criar ordem",
+			"description": "Cadastra uma ordem (201). Campos obrigatorios: cliente_nome, cliente_telefone, equipamento, marca, problema_relatado.",
+			"method": "POST",
+			"url": "{{ _.base_url }}/api/maintenance-orders",
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"cliente_nome\": \"João Silva\",\n  \"cliente_telefone\": \"(71) 99999-0000\",\n  \"equipamento\": \"Notebook\",\n  \"marca\": \"Dell\",\n  \"modelo\": \"Inspiron 15\",\n  \"problema_relatado\": \"Não liga\",\n  \"status\": \"recebido\"\n}"
+			}
+		},
+		{
+			"_id": "req_fixapi_update",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Atualizar ordem",
+			"description": "Atualizacao parcial de uma ordem (200).",
+			"method": "PUT",
+			"url": "{{ _.base_url }}/api/maintenance-orders/1",
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"status\": \"em_manutencao\",\n  \"diagnostico\": \"Fonte queimada\",\n  \"valor\": 250.00\n}"
+			}
+		},
+		{
+			"_id": "req_fixapi_delete",
+			"_type": "request",
+			"parentId": "fld_fixapi_orders",
+			"name": "Excluir ordem",
+			"description": "Exclui uma ordem (204, sem corpo).",
+			"method": "DELETE",
+			"url": "{{ _.base_url }}/api/maintenance-orders/1",
+			"headers": [
+				{ "name": "Accept", "value": "application/json" }
+			],
+			"parameters": [],
+			"authentication": {},
+			"body": {}
+		}
+	]
+}

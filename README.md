@@ -169,8 +169,8 @@ Campos obrigatórios no `POST`: `cliente_nome`, `cliente_telefone`, `equipamento
 
 ## Como testar no Insomnia
 
-1. Abra o Insomnia e crie uma nova coleção "FixAPI".
-2. Crie uma requisição para cada endpoint da tabela acima, usando `http://localhost:8000` (ou o domínio do Herd) como base.
+1. Abra o Insomnia e importe a coleção pronta em `insomnia/FixAPI-insomnia.json` (*Import* > *From File*). Ela já traz as 6 requisições da API com a variável `base_url` (`http://localhost:8000` — ajuste para o domínio do Herd se necessário).
+2. Ou crie manualmente uma nova coleção "FixAPI" com uma requisição para cada endpoint da tabela acima.
 3. Para `POST` e `PUT`, defina o *Body* como `JSON` e cole os exemplos acima.
 4. Confira os códigos de status retornados: `200`, `201`, `204`, `400`, `404` e `422`.
 
