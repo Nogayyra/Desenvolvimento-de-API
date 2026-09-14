@@ -1,0 +1,16 @@
+{
+    "name": "academico/fixapi",
+    "description": "FixAPI - API REST para gerenciamento de ordens de manutencao de computadores. Projeto academico em PHP puro.",
+    "type": "project",
+    "require": {
+        "php": ">=8.3"
+    },
+    "require-dev": {
+        "zircote/swagger-php": "^4.9",
+        "phpunit/phpunit": "^11.0"
+    },
+    "scripts": {
+        "e2e": "php tests/run-e2e.php"
+    },
+    "license": "MIT"
+}
