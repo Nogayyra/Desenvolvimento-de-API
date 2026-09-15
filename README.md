@@ -21,18 +21,18 @@ Sem Laravel Framework, sem sessão, sem login/JWT — apenas PHP puro organizado
 
 ```
 FixAPI/
-├── Configuracao/
-│   └── configuracao.php         # Carrega o .env e define constantes de config
-├── Controlador/
+├── config/
+│   └── config.php               # Carrega o .env e define constantes de config
+├── Controller/
 │   └── ControladorOrdemManutencao.php
-├── Modelo/
+├── Models/
 │   ├── Conexao.php              # Conexão PDO (única responsabilidade)
 │   └── OrdemManutencao.php      # Todo o SQL da entidade + validação
-├── Rotas/
+├── Routes/
 │   └── rotas.php                # Roteamento: método HTTP + URI -> Controlador
 ├── Swagger/
 │   └── openapi.php              # Anotações OpenAPI (PHP Attributes)
-├── banco_de_dados/
+├── database/
 │   └── esquema.sql              # Criação do banco + dados de exemplo
 ├── public/
 │   ├── index.php                # Ponto de entrada (carrega tudo e chama as rotas)
@@ -46,9 +46,9 @@ FixAPI/
 
 ## Arquitetura
 
-- **Modelo** (`Conexao`, `OrdemManutencao`): conexão PDO e todo o SQL com *prepared statements*. Também concentra a validação dos dados da entidade.
-- **Controlador** (`ControladorOrdemManutencao`): lê a requisição (JSON do corpo, query string), chama o Modelo, monta a resposta em JSON com o código HTTP correto. Não tem SQL.
-- **Rotas/rotas.php**: interpreta a URI e o método HTTP e despacha para o método certo do Controlador.
+- **Models** (`Conexao`, `OrdemManutencao`): conexão PDO e todo o SQL com *prepared statements*. Também concentra a validação dos dados da entidade.
+- **Controller** (`ControladorOrdemManutencao`): lê a requisição (JSON do corpo, query string), chama o Models, monta a resposta em JSON com o código HTTP correto. Não tem SQL.
+- **Routes/rotas.php**: interpreta a URI e o método HTTP e despacha para o método certo do Controlador.
 - **public/index.php**: ponto de entrada único — carrega as classes e delega para as rotas.
 
 ## Instalação
@@ -65,7 +65,7 @@ composer install
 
 1. Crie o banco e a tabela executando o script:
    ```bash
-   mysql -u root -p < banco_de_dados/esquema.sql
+   mysql -u root -p < database/esquema.sql
    ```
    Isso cria o banco `fixapi`, a tabela `maintenance_orders` e 5 registros de exemplo.
 
@@ -192,9 +192,9 @@ Sugestão de tarefas para organizar no Jira:
 1. Configuração do projeto
 2. Banco de dados (esquema.sql)
 3. Conexão PDO (Conexao.php)
-4. Modelo (OrdemManutencao.php)
-5. Controlador (ControladorOrdemManutencao.php)
-6. Rotas (Rotas/rotas.php)
+4. Models (OrdemManutencao.php)
+5. Controller (ControladorOrdemManutencao.php)
+6. Routes (Routes/rotas.php)
 7. CRUD completo
 8. Validações
 9. Documentação Swagger
