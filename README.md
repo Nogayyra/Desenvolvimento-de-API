@@ -183,24 +183,6 @@ Campos obrigatórios no `POST`: `cliente_nome`, `cliente_telefone`, `equipamento
    vendor/bin/openapi Swagger -o public/openapi.json
   ```
 
-## Git, GitHub e Jira
-
-O projeto já está preparado com `.gitignore` (ignorando `.env`, `vendor/` e arquivos temporários).
-
-Sugestão de tarefas para organizar no Jira:
-
-1. Configuração do projeto
-2. Banco de dados (esquema.sql)
-3. Conexão PDO (Conexao.php)
-4. Models (OrdemManutencao.php)
-5. Controller (ControladorOrdemManutencao.php)
-6. Routes (Routes/rotas.php)
-7. CRUD completo
-8. Validações
-9. Documentação Swagger
-10. Testes no Insomnia
-11. README
-
 ## Quem fez o quê (Felipe e Arthur)
 
 Os commits no GitHub saíram todos pela conta do Felipe, mas o código foi dividido entre a dupla como combinado e registrado no relatório do projeto:
