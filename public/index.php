@@ -1,15 +1,11 @@
 <?php
 
-/**
- * public/index.php — Front Controller
- *
- * Responsabilidade: carregar as classes necessárias e delegar
- * o roteamento para Routes/api.php. Não contém regras de negócio.
- */
+// Ponto de entrada da API: carrega os arquivos e passa para as rotas.
 
-require __DIR__ . '/../Config/configuration.php';
-require __DIR__ . '/../Model/Connection.php';
-require __DIR__ . '/../Model/MaintenanceOrder.php';
-require __DIR__ . '/../Controller/MaintenanceOrderController.php';
+require __DIR__ . '/../Models/connection.php';
+require __DIR__ . '/../config/config.php';
+require __DIR__ . '/../Models/Conexao.php';
+require __DIR__ . '/../Models/OrdemManutencao.php';
+require __DIR__ . '/../Controller/ControladorOrdemManutencao.php';
 
-require __DIR__ . '/../Routes/api.php';
+require __DIR__ . '/../Routes/rotas.php';
