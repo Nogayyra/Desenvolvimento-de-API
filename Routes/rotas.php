@@ -1,27 +1,21 @@
 <?php
 
-/**
- * Routes/api.php
- *
- * Responsabilidade única: mapear método HTTP + URI para o método
- * correto do Controller. Não contém regras de negócio.
- */
+// Diz qual método do controlador atende cada combinação de método HTTP + URL.
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 
-// Remove a query string e barras finais para simplificar o match.
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = rtrim($uri, '/');
 
-// Detecta o subdiretório caso a API não esteja na raiz do domínio.
-$scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-if ($scriptDir !== '' && str_starts_with($uri, $scriptDir)) {
-    $uri = substr($uri, strlen($scriptDir));
+// Se o site estiver numa subpasta em vez da raiz, ignora essa parte da URL.
+$pastaBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+if ($pastaBase !== '' && str_starts_with($uri, $pastaBase)) {
+    $uri = substr($uri, strlen($pastaBase));
 }
 
 $partes = explode('/', trim($uri, '/'));
 
-// Espera: api / maintenance-orders / {id?}
+// Só existe /api/maintenance-orders, com id opcional no final.
 if (($partes[0] ?? '') !== 'api' || ($partes[1] ?? '') !== 'maintenance-orders') {
     http_response_code(404);
     header('Content-Type: application/json; charset=utf-8');
@@ -40,23 +34,23 @@ if ($id !== null && !ctype_digit($id)) {
 
 switch (true) {
     case $metodo === 'GET' && $id === null:
-        MaintenanceOrderController::index();
+        ControladorOrdemManutencao::listar();
         break;
 
     case $metodo === 'GET' && $id !== null:
-        MaintenanceOrderController::show((int) $id);
+        ControladorOrdemManutencao::buscar((int) $id);
         break;
 
     case $metodo === 'POST' && $id === null:
-        MaintenanceOrderController::store();
+        ControladorOrdemManutencao::criar();
         break;
 
     case $metodo === 'PUT' && $id !== null:
-        MaintenanceOrderController::update((int) $id);
+        ControladorOrdemManutencao::atualizar((int) $id);
         break;
 
     case $metodo === 'DELETE' && $id !== null:
-        MaintenanceOrderController::destroy((int) $id);
+        ControladorOrdemManutencao::excluir((int) $id);
         break;
 
     default:

@@ -1,15 +1,10 @@
 <?php
 
-/**
- * MaintenanceOrder
- *
- * Responsabilidade: representar a ordem de manutenção e cuidar de
- * todas as consultas ao banco (listar, buscar, criar, atualizar, excluir).
- * Não conhece HTTP nem JSON.
- */
-class MaintenanceOrder
+// Tudo que envolve ordem de manutenção: validação e o SQL da tabela.
+
+class OrdemManutencao
 {
-    public const STATUSES = [
+    public const STATUS_VALIDOS = [
         'recebido',
         'em_analise',
         'em_manutencao',
@@ -19,10 +14,7 @@ class MaintenanceOrder
         'cancelado',
     ];
 
-    /**
-     * Valida os dados recebidos. Retorna um array de erros (vazio se ok).
-     * $parcial = true ignora campos ausentes (usado no PUT com atualização parcial).
-     */
+    // Devolve a lista de erros (vazia = válido). Com $parcial, campo ausente não é erro (PUT).
     public static function validar(array $dados, bool $parcial = false): array
     {
         $erros = [];
@@ -41,8 +33,8 @@ class MaintenanceOrder
             $erros[] = "O campo 'cliente_nome' deve ter no máximo 150 caracteres.";
         }
 
-        if (isset($dados['status']) && !in_array($dados['status'], self::STATUSES, true)) {
-            $erros[] = "O campo 'status' é inválido. Valores permitidos: " . implode(', ', self::STATUSES) . '.';
+        if (isset($dados['status']) && !in_array($dados['status'], self::STATUS_VALIDOS, true)) {
+            $erros[] = "O campo 'status' é inválido. Valores permitidos: " . implode(', ', self::STATUS_VALIDOS) . '.';
         }
 
         if (isset($dados['valor']) && $dados['valor'] !== null && $dados['valor'] !== '' && !is_numeric($dados['valor'])) {
@@ -52,51 +44,48 @@ class MaintenanceOrder
         return $erros;
     }
 
-    /**
-     * Lista todas as ordens, com filtro opcional por status.
-     */
     public static function listarTodas(?string $status = null): array
     {
-        $pdo = Connection::get();
+        $banco = Conexao::conectar();
 
         $sql = 'SELECT * FROM maintenance_orders';
-        $params = [];
+        $parametros = [];
 
-        if (!empty($status) && in_array($status, self::STATUSES, true)) {
+        if (!empty($status) && in_array($status, self::STATUS_VALIDOS, true)) {
             $sql .= ' WHERE status = :status';
-            $params['status'] = $status;
+            $parametros['status'] = $status;
         }
 
         $sql .= ' ORDER BY created_at DESC';
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
+        $consulta = $banco->prepare($sql);
+        $consulta->execute($parametros);
 
-        return $stmt->fetchAll();
+        return $consulta->fetchAll();
     }
 
     public static function buscarPorId(int $id): ?array
     {
-        $pdo = Connection::get();
-        $stmt = $pdo->prepare('SELECT * FROM maintenance_orders WHERE id = :id LIMIT 1');
-        $stmt->execute(['id' => $id]);
-        $ordem = $stmt->fetch();
+        $banco = Conexao::conectar();
+        $consulta = $banco->prepare('SELECT * FROM maintenance_orders WHERE id = :id LIMIT 1');
+        $consulta->execute(['id' => $id]);
+        $ordem = $consulta->fetch();
 
         return $ordem ?: null;
     }
 
     public static function criar(array $dados): int
     {
-        $pdo = Connection::get();
+        $banco = Conexao::conectar();
 
-        $stmt = $pdo->prepare(
+        $consulta = $banco->prepare(
             'INSERT INTO maintenance_orders
                 (cliente_nome, cliente_telefone, equipamento, marca, modelo, problema_relatado, diagnostico, status, valor)
              VALUES
                 (:cliente_nome, :cliente_telefone, :equipamento, :marca, :modelo, :problema_relatado, :diagnostico, :status, :valor)'
         );
 
-        $stmt->execute([
+        $consulta->execute([
             'cliente_nome' => $dados['cliente_nome'],
             'cliente_telefone' => $dados['cliente_telefone'],
             'equipamento' => $dados['equipamento'],
@@ -108,16 +97,14 @@ class MaintenanceOrder
             'valor' => $dados['valor'] ?? null,
         ]);
 
-        return (int) $pdo->lastInsertId();
+        return (int) $banco->lastInsertId();
     }
 
-    /**
-     * Atualiza apenas os campos presentes em $dados (atualização parcial).
-     */
+    // Monta o UPDATE só com os campos que vieram no $dados.
     public static function atualizar(int $id, array $dados): bool
     {
         $campos = [];
-        $params = ['id' => $id];
+        $parametros = ['id' => $id];
 
         $permitidos = [
             'cliente_nome', 'cliente_telefone', 'equipamento', 'marca',
@@ -127,7 +114,7 @@ class MaintenanceOrder
         foreach ($permitidos as $campo) {
             if (array_key_exists($campo, $dados)) {
                 $campos[] = "{$campo} = :{$campo}";
-                $params[$campo] = $dados[$campo];
+                $parametros[$campo] = $dados[$campo];
             }
         }
 
@@ -135,18 +122,18 @@ class MaintenanceOrder
             return false;
         }
 
-        $pdo = Connection::get();
+        $banco = Conexao::conectar();
         $sql = 'UPDATE maintenance_orders SET ' . implode(', ', $campos) . ' WHERE id = :id';
-        $stmt = $pdo->prepare($sql);
+        $consulta = $banco->prepare($sql);
 
-        return $stmt->execute($params);
+        return $consulta->execute($parametros);
     }
 
     public static function excluir(int $id): bool
     {
-        $pdo = Connection::get();
-        $stmt = $pdo->prepare('DELETE FROM maintenance_orders WHERE id = :id');
+        $banco = Conexao::conectar();
+        $consulta = $banco->prepare('DELETE FROM maintenance_orders WHERE id = :id');
 
-        return $stmt->execute(['id' => $id]);
+        return $consulta->execute(['id' => $id]);
     }
 }

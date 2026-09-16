@@ -14,7 +14,7 @@
 			"_id": "env_fixapi_base",
 			"_type": "environment",
 			"parentId": "wrk_fixapi",
-			"name": "Base Environment",
+			"name": "Ambiente base",
 			"data": {
 				"base_url": "http://localhost:8000"
 			}
@@ -23,7 +23,7 @@
 			"_id": "fld_fixapi_orders",
 			"_type": "request_group",
 			"parentId": "wrk_fixapi",
-			"name": "Maintenance Orders",
+			"name": "Ordens de manutenção",
 			"description": "CRUD de ordens de manutencao."
 		},
 		{
